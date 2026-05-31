@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nori 놀이 — Discover Your Next Adventure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* ─── TOKENS ─────────────────────────────────────────────── */
+  :root {
+    --sage-light: #A8B59F;
+    --sage:       #8FA58A;
+    --sage-dark:  #73806F;
+    --cream:      #F8F5EF;
+    --cream-dark: #EEE9DF;
+    --brown:      #7B6856;
+    --brown-light:#A08C78;
+    --text:       #2D2721;
+    --text-mid:   #5C4F42;
+    --text-soft:  #9E8E7E;
+    --white:      #FFFFFF;
+    --card-bg:    #FDFAF5;
+    --shadow-sm:  0 2px 8px rgba(123,104,86,.08);
+    --shadow-md:  0 6px 24px rgba(123,104,86,.13);
+    --shadow-lg:  0 16px 48px rgba(123,104,86,.18);
+    --r-sm: 12px;
+    --r-md: 20px;
+    --r-lg: 28px;
+    --r-xl: 40px;
+    --nav-h: 72px;
+    --serif: 'DM Serif Display', serif;
+    --sans:  'DM Sans', sans-serif;
+    --kr:    'Noto Serif KR', serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── SCROLLBAR ──────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--sage); border-radius: 99px; }
+
+  /* ─── NAVBAR ─────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(248,245,239,.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(168,181,159,.2);
+    display: flex; align-items: center;
+    padding: 0 32px; gap: 24px;
+  }
+  .nav-logo {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-img {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--sage), var(--brown));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 18px; font-family: var(--kr);
+    box-shadow: var(--shadow-sm);
+  }
+  .nav-logo-text {
+    font-family: var(--serif);
+    font-size: 22px; color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .nav-logo-sub {
+    font-family: var(--kr);
+    font-size: 11px; color: var(--text-soft);
+    margin-left: 2px;
+  }
+  .nav-search {
+    flex: 1; max-width: 420px; margin: 0 auto;
+    position: relative;
+  }
+  .nav-search input {
+    width: 100%;
+    padding: 10px 44px 10px 18px;
+    border-radius: 99px;
+    border: 1.5px solid var(--cream-dark);
+    background: var(--white);
+    font-family: var(--sans); font-size: 14px; color: var(--text);
+    outline: none;
+    box-shadow: var(--shadow-sm);
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .nav-search input:focus {
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px rgba(168,181,159,.25);
+  }
+  .nav-search input::placeholder { color: var(--text-soft); }
+  .nav-search-icon {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text-soft); font-size: 16px; pointer-events: none;
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 4px;
+    list-style: none;
+  }
+  .nav-links a {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 13px; border-radius: 99px;
+    font-size: 13.5px; font-weight: 500;
+    color: var(--text-mid); text-decoration: none;
+    transition: background .2s, color .2s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { background: var(--cream-dark); color: var(--text); }
+  .nav-links a.active { background: var(--sage-light); color: var(--white); }
+  .nav-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--brown-light), var(--brown));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 13px; font-weight: 600;
+    cursor: pointer; flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ─── HERO ───────────────────────────────────────────────── */
+  .hero {
+    margin-top: var(--nav-h);
+    min-height: 540px;
+    padding: 60px 40px 50px;
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1280px; margin-left: auto; margin-right: auto;
+    margin-top: calc(var(--nav-h) + 0px);
+  }
+  .hero-left { padding: 20px 0; }
+  .hero-greeting {
+    font-size: 13px; font-weight: 500;
+    color: var(--sage-dark); letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-greeting::before {
+    content: ''; display: block;
+    width: 24px; height: 2px; background: var(--sage);
+    border-radius: 2px;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(38px, 5vw, 62px);
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  .hero-title em { font-style: italic; color: var(--sage-dark); }
+  .hero-sub {
+    font-size: 17px; color: var(--text-mid);
+    max-width: 440px; margin-bottom: 36px;
+    line-height: 1.65;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 32px; border-radius: 99px;
+    background: var(--brown);
+    color: #fff; font-size: 15px; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(123,104,86,.3);
+    transition: transform .2s, box-shadow .2s, background .2s;
+  }
+  .hero-cta:hover {
+    background: var(--text);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(45,39,33,.25);
+  }
+  .hero-cta-icon { font-size: 18px; }
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--cream-dark);
+  }
+  .hero-stat-num {
+    font-family: var(--serif); font-size: 28px; color: var(--brown);
+  }
+  .hero-stat-label { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+  .hero-banner {
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    position: relative;
+    height: 420px;
+    box-shadow: var(--shadow-lg);
+  }
+  .hero-banner-img {
+    width: 100%; height: 100%; object-fit: cover;
+    background: linear-gradient(135deg, #c8d5c0 0%, #b5c4aa 30%, #d4c4b0 60%, #c8b89e 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px;
+  }
+  .hero-banner-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(45,39,33,.55) 0%, transparent 60%);
+  }
+  .hero-banner-badge {
+    position: absolute; bottom: 24px; left: 24px;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(8px);
+    padding: 12px 18px; border-radius: var(--r-md);
+    box-shadow: var(--shadow-md);
+  }
+  .hbb-title { font-weight: 600; font-size: 15px; color: var(--text); }
+  .hbb-sub { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+  .hero-banner-pill {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--sage-light);
+    color: white; font-size: 12px; font-weight: 600;
+    padding: 6px 14px; border-radius: 99px;
+    letter-spacing: .5px;
+  }
+  .hero-float-card {
+    position: absolute; top: -12px; right: -16px;
+    background: var(--white);
+    padding: 14px 18px; border-radius: var(--r-md);
+    box-shadow: var(--shadow-md);
+    font-size: 13px;
+  }
+  .hero-float-emoji { font-size: 24px; margin-bottom: 4px; }
+  .hero-float-text { font-weight: 600; color: var(--text); font-size: 13px; }
+  .hero-float-sub  { font-size: 11px; color: var(--text-soft); }
+
+  /* ─── SECTION WRAPPER ────────────────────────────────────── */
+  .section {
+    padding: 56px 40px;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 28px; color: var(--text);
+    line-height: 1.2;
+  }
+  .section-sub {
+    font-size: 13.5px; color: var(--text-soft);
+    margin-top: 4px;
+  }
+  .section-link {
+    font-size: 13px; font-weight: 500; color: var(--brown);
+    text-decoration: none; white-space: nowrap;
+    display: flex; align-items: center; gap: 4px;
+    transition: gap .2s;
+  }
+  .section-link:hover { gap: 8px; }
+
+  /* ─── HORIZONTAL SCROLL CARDS ────────────────────────────── */
+  .scroll-track {
+    display: flex; gap: 20px;
+    overflow-x: auto; padding-bottom: 12px;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none; scrollbar-width: none;
+  }
+  .scroll-track::-webkit-scrollbar { display: none; }
+  .activity-card {
+    flex: 0 0 240px; scroll-snap-align: start;
+    background: var(--card-bg);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+    position: relative;
+  }
+  .activity-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: var(--shadow-lg);
+  }
+  .activity-card-img {
+    height: 170px; width: 100%;
+    overflow: hidden;
+    background: var(--cream-dark);
+  }
+  .activity-card-body { padding: 16px; }
+  .activity-tag {
+    display: inline-block;
+    padding: 3px 10px; border-radius: 99px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .4px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tag-craft { background: #EDE5DA; color: #7B6856; }
+  .tag-music { background: #DDE5F0; color: #4A6FA5; }
+  .tag-food  { background: #F0E8D8; color: #A0743C; }
+  .tag-photo { background: #E8EDE5; color: #5A7A50; }
+  .tag-scent { background: #F0DDE8; color: #A0507A; }
+  .tag-art   { background: #DDE8E5; color: #3A7A6A; }
+  .tag-social{ background: #E8E8F0; color: #5A5AA0; }
+  .activity-name {
+    font-weight: 600; font-size: 15px;
+    color: var(--text); margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .activity-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; color: var(--text-soft);
+    margin-top: 8px;
+  }
+  .activity-price { font-weight: 600; color: var(--brown); }
+  .activity-match {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 12px; font-weight: 600;
+    color: var(--sage-dark);
+  }
+  .match-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--sage);
+  }
+  .activity-card-fav {
+    position: absolute; top: 12px; right: 12px;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; cursor: pointer;
+    transition: transform .2s, background .2s;
+    border: none;
+  }
+  .activity-card-fav:hover { transform: scale(1.15); background: white; }
+  .activity-card-fav.active { color: #e05c5c; }
+
+  /* gradient backgrounds for cards */
+  .bg-clay  { background: linear-gradient(135deg, #d4c4b0 0%, #c8b49a 100%); }
+  .bg-night { background: linear-gradient(135deg, #b0c0d4 0%, #8090b4 100%); }
+  .bg-bake  { background: linear-gradient(135deg, #d4c8a0 0%, #c4b480 100%); }
+  .bg-lens  { background: linear-gradient(135deg, #b4c8b0 0%, #90a88c 100%); }
+  .bg-scent { background: linear-gradient(135deg, #d4b0c0 0%, #c090a0 100%); }
+  .bg-brew  { background: linear-gradient(135deg, #c8d0a0 0%, #a8b080 100%); }
+  .bg-tile  { background: linear-gradient(135deg, #c0b8d4 0%, #a098c0 100%); }
+  .bg-dance { background: linear-gradient(135deg, #d4b8c0 0%, #b8909a 100%); }
+
+  /* ─── SEPARATOR ──────────────────────────────────────────── */
+  .sep {
+    height: 1px; background: var(--cream-dark);
+    max-width: 1280px; margin: 0 auto;
+  }
+
+  /* ─── MOOD EXPLORER ──────────────────────────────────────── */
+  .mood-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+  .mood-card {
+    aspect-ratio: 1;
+    border-radius: var(--r-lg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+    position: relative; overflow: hidden;
+    border: 2px solid transparent;
+    user-select: none;
+  }
+  .mood-card:hover { transform: scale(1.04) translateY(-4px); box-shadow: var(--shadow-md); }
+  .mood-card.selected {
+    border-color: var(--brown);
+    box-shadow: 0 0 0 4px rgba(123,104,86,.15), var(--shadow-md);
+    transform: scale(1.05);
+  }
+  .mood-card.selected::after {
+    content: '✓';
+    position: absolute; top: 8px; right: 10px;
+    font-size: 11px; font-weight: 700; color: var(--brown);
+  }
+  .mood-emoji { font-size: 32px; margin-bottom: 8px; }
+  .mood-label { font-size: 12.5px; font-weight: 600; color: var(--text-mid); }
+  .mood-bg-1 { background: linear-gradient(135deg, #c8d5c0, #b0c4a8); }
+  .mood-bg-2 { background: linear-gradient(135deg, #d5c8d0, #c4b0c0); }
+  .mood-bg-3 { background: linear-gradient(135deg, #c8c0b0, #b8a890); }
+  .mood-bg-4 { background: linear-gradient(135deg, #d5cec4, #c8b8a8); }
+  .mood-bg-5 { background: linear-gradient(135deg, #c0c8d5, #a8b8c4); }
+  .mood-bg-6 { background: linear-gradient(135deg, #d5c0c8, #c4a8b0); }
+
+  /* ─── MAP SECTION ────────────────────────────────────────── */
+  .map-section {
+    padding: 56px 40px;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .map-container {
+    display: grid; grid-template-columns: 1fr 360px; gap: 24px;
+    align-items: start;
+  }
+  .map-wrap {
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    position: relative;
+    height: 460px;
+    background: #d8e0d4;
+    box-shadow: var(--shadow-md);
+  }
+  .map-bg {
+    width: 100%; height: 100%;
+    background: 
+      repeating-linear-gradient(0deg, rgba(168,181,159,.12) 0, rgba(168,181,159,.12) 1px, transparent 1px, transparent 40px),
+      repeating-linear-gradient(90deg, rgba(168,181,159,.12) 0, rgba(168,181,159,.12) 1px, transparent 1px, transparent 40px),
+      linear-gradient(135deg, #d4ddd0 0%, #c8d4c0 40%, #ccd8d0 70%, #c4d0c8 100%);
+    position: relative;
+  }
+  /* decorative roads */
+  .map-road {
+    position: absolute;
+    background: rgba(255,255,255,.45);
+    border-radius: 2px;
+  }
+  .map-marker {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    cursor: pointer;
+    transition: transform .2s;
+    z-index: 2;
+  }
+  .map-marker:hover { transform: translate(-50%, -100%) scale(1.3); }
+  .map-marker-inner {
+    background: white;
+    border-radius: var(--r-sm);
+    padding: 6px 10px; font-size: 13px;
+    box-shadow: var(--shadow-md);
+    display: flex; align-items: center; gap: 6px;
+    white-space: nowrap;
+    border: 1.5px solid var(--cream-dark);
+  }
+  .map-marker-inner span:last-child { font-size: 11px; font-weight: 600; color: var(--text-mid); }
+  .map-popup {
+    position: absolute;
+    background: white;
+    border-radius: var(--r-md);
+    padding: 16px;
+    box-shadow: var(--shadow-lg);
+    width: 200px;
+    z-index: 10;
+    border: 1px solid var(--cream-dark);
+    display: none;
+    animation: popIn .2s cubic-bezier(.34,1.56,.64,1);
+  }
+  .map-popup.show { display: block; }
+  @keyframes popIn { from { transform: scale(.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .map-popup-emoji { font-size: 28px; margin-bottom: 6px; }
+  .map-popup-title { font-weight: 700; font-size: 14px; color: var(--text); }
+  .map-popup-loc   { font-size: 12px; color: var(--text-soft); margin: 3px 0 10px; }
+  .map-popup-btn {
+    width: 100%; padding: 8px;
+    border-radius: 99px; border: none;
+    background: var(--brown); color: white;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: background .2s;
+  }
+  .map-popup-btn:hover { background: var(--text); }
+  .map-popup-close {
+    position: absolute; top: 8px; right: 10px;
+    background: none; border: none; cursor: pointer;
+    color: var(--text-soft); font-size: 16px;
+  }
+  .map-list { display: flex; flex-direction: column; gap: 12px; }
+  .map-list-card {
+    background: var(--card-bg);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: border-color .2s, box-shadow .2s, transform .2s;
+    box-shadow: var(--shadow-sm);
+  }
+  .map-list-card:hover {
+    border-color: var(--sage-light);
+    box-shadow: var(--shadow-md);
+    transform: translateX(3px);
+  }
+  .map-list-icon { font-size: 26px; flex-shrink: 0; }
+  .map-list-name { font-weight: 600; font-size: 14px; color: var(--text); }
+  .map-list-dist { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+
+  /* ─── SURPRISE ME ────────────────────────────────────────── */
+  .surprise-section {
+    padding: 56px 40px;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .surprise-card {
+    background: linear-gradient(135deg, var(--sage-light), var(--sage-dark));
+    border-radius: var(--r-xl);
+    padding: 60px 40px;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 40px; align-items: center;
+    position: relative; overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .surprise-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .surprise-title {
+    font-family: var(--serif);
+    font-size: 36px; color: white; margin-bottom: 10px; position: relative;
+  }
+  .surprise-sub { font-size: 16px; color: rgba(255,255,255,.8); position: relative; max-width: 440px; }
+  .surprise-result {
+    margin-top: 24px; position: relative;
+    background: rgba(255,255,255,.15);
+    backdrop-filter: blur(8px);
+    border-radius: var(--r-md);
+    padding: 16px 24px;
+    display: none;
+    border: 1px solid rgba(255,255,255,.25);
+  }
+  .surprise-result.show { display: block; animation: fadeUp .4s ease; }
+  @keyframes fadeUp { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .surprise-result-emoji { font-size: 32px; margin-bottom: 6px; }
+  .surprise-result-name { font-weight: 700; font-size: 18px; color: white; }
+  .surprise-result-sub { font-size: 13px; color: rgba(255,255,255,.7); margin-top: 3px; }
+  .dice-btn {
+    width: 110px; height: 110px;
+    border-radius: 28px;
+    background: rgba(255,255,255,.2);
+    border: 2px solid rgba(255,255,255,.35);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+    position: relative; z-index: 1;
+    backdrop-filter: blur(8px);
+  }
+  .dice-btn:hover { background: rgba(255,255,255,.3); transform: scale(1.06) rotate(-5deg); }
+  .dice-btn.rolling { animation: roll .5s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes roll {
+    0%  { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(180deg) scale(.8); }
+    75% { transform: rotate(340deg) scale(1.1); }
+    100%{ transform: rotate(360deg) scale(1); }
+  }
+  .dice-emoji { font-size: 40px; }
+  .dice-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.8); margin-top: 4px; letter-spacing: .5px; }
+
+  /* ─── REWARDS ────────────────────────────────────────────── */
+  .rewards-section {
+    padding: 56px 40px;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .rewards-card {
+    background: var(--card-bg);
+    border-radius: var(--r-xl);
+    padding: 40px 44px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 48px; align-items: center;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--cream-dark);
+  }
+  .rewards-title {
+    font-family: var(--serif); font-size: 28px;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .rewards-sub { font-size: 15px; color: var(--text-mid); margin-bottom: 28px; line-height: 1.6; }
+  .rewards-progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: var(--text-soft); margin-bottom: 10px;
+  }
+  .rewards-progress-label strong { color: var(--brown); }
+  .progress-bar-wrap {
+    height: 12px; background: var(--cream-dark);
+    border-radius: 99px; overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .progress-bar-fill {
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--sage), var(--brown));
+    width: 0%;
+    transition: width 1.2s cubic-bezier(.34,1,.64,1);
+  }
+  .rewards-steps {
+    display: flex; gap: 8px; margin-bottom: 28px;
+  }
+  .reward-step {
+    flex: 1; height: 6px; border-radius: 99px;
+    background: var(--cream-dark);
+    transition: background .3s;
+  }
+  .reward-step.done { background: var(--sage); }
+  .reward-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 26px; border-radius: 99px;
+    background: var(--brown); color: white;
+    font-size: 14px; font-weight: 600; border: none; cursor: pointer;
+    transition: background .2s, transform .2s;
+    box-shadow: 0 4px 12px rgba(123,104,86,.25);
+  }
+  .reward-cta:hover { background: var(--text); transform: translateY(-2px); }
+  .rewards-badges {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .badge-card {
+    background: var(--cream);
+    border-radius: var(--r-md);
+    padding: 16px;
+    display: flex; align-items: center; gap: 12px;
+    border: 1.5px solid var(--cream-dark);
+    transition: border-color .2s;
+  }
+  .badge-card.earned { border-color: var(--sage-light); }
+  .badge-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--cream-dark), var(--sage-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .badge-card.earned .badge-icon {
+    background: linear-gradient(135deg, var(--sage-light), var(--sage));
+  }
+  .badge-name { font-weight: 600; font-size: 13px; color: var(--text); }
+  .badge-desc { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
+  .badge-status {
+    font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+    margin-top: 4px; color: var(--text-soft);
+  }
+  .badge-card.earned .badge-status { color: var(--sage-dark); }
+
+  /* ─── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    background: var(--text);
+    color: rgba(255,255,255,.6);
+    padding: 56px 40px 32px;
+    margin-top: 48px;
+  }
+  .footer-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-brand-name {
+    font-family: var(--serif); font-size: 26px; color: white; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .footer-brand-name .kr { font-family: var(--kr); font-size: 16px; color: var(--sage-light); }
+  .footer-brand-desc { font-size: 13.5px; line-height: 1.7; max-width: 260px; }
+  .footer-socials { display: flex; gap: 10px; margin-top: 20px; }
+  .social-btn {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(255,255,255,.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; cursor: pointer;
+    transition: background .2s, transform .2s;
+    text-decoration: none; color: rgba(255,255,255,.7);
+  }
+  .social-btn:hover { background: var(--sage-dark); transform: translateY(-2px); color: white; }
+  .footer-col-title { color: white; font-weight: 600; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 16px; }
+  .footer-col a {
+    display: block; font-size: 13.5px; color: rgba(255,255,255,.55);
+    text-decoration: none; margin-bottom: 10px;
+    transition: color .2s;
+  }
+  .footer-col a:hover { color: var(--sage-light); }
+  .footer-bottom {
+    max-width: 1280px; margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12.5px;
+  }
+  .footer-bottom-kr { font-family: var(--kr); color: var(--sage-light); font-size: 11px; }
+
+  /* ─── TOAST ──────────────────────────────────────────────── */
+  .toast {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    background: var(--text); color: white;
+    padding: 14px 22px; border-radius: var(--r-md);
+    font-size: 14px; font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    display: flex; align-items: center; gap: 10px;
+    transform: translateY(80px); opacity: 0;
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .mood-grid { grid-template-columns: repeat(3, 1fr); }
+    .map-container { grid-template-columns: 1fr; }
+    .map-list { display: grid; grid-template-columns: 1fr 1fr; }
+    .rewards-card { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 16px; gap: 12px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 32px 20px; gap: 28px; }
+    .hero-banner { height: 280px; }
+    .section, .map-section, .surprise-section, .rewards-section { padding: 40px 20px; }
+    .mood-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .surprise-card { grid-template-columns: 1fr; text-align: center; }
+    .dice-btn { margin: 0 auto; }
+    .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+    .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    .rewards-badges { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+<a href="#" class="nav-logo">
+  <img src="nori.png" 
+       alt="Nori" 
+       style="width:44px;height:44px;object-fit:contain;border-radius:8px;flex-shrink:0;">
+  <div style="font-size:10px;letter-spacing:2px;color:var(--text-soft);text-transform:uppercase;font-weight:500;">
+    Play · Explore · Live
+  </div>
+</a>
+
+  <div class="nav-search">
+    <input type="text" placeholder="Search activities, workshops, classes…">
+    <span class="nav-search-icon">🔍</span>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#" class="active">Discover</a></li>
+    <li><a href="#">History</a></li>
+    <li><a href="#surprise" onclick="rollDice()">🎲 Random</a></li>
+    <li><a href="#rewards">Rewards</a></li>
+    <li><a href="#">❤️ Saved</a></li>
+  </ul>
+
+  <div class="nav-avatar" title="My Page">S</div>
+</nav>
+
+<!-- ── HERO ── -->
+<section style="max-width:1280px;margin:0 auto;padding:0 40px;">
+  <div class="hero" style="max-width:100%;margin-top:var(--nav-h);padding:60px 0 50px;">
+    <div class="hero-left">
+      <div class="hero-greeting">Welcome back, Sarah!</div>
+      <h1 class="hero-title">Ready for your<br><em>next adventure?</em></h1>
+      <p class="hero-sub">Seoul is full of hidden experiences waiting for you — workshops, classes, events, and spontaneous moments you'll never forget.</p>
+      <a href="#recommended" class="hero-cta">
+        <span class="hero-cta-icon">✨</span>
+        Find My Next Activity
+      </a>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">2,400+</div>
+          <div class="hero-stat-label">Activities listed</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">480</div>
+          <div class="hero-stat-label">Hosts in Seoul</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">98%</div>
+          <div class="hero-stat-label">Satisfaction rate</div>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div class="hero-banner">
+        <img src="https://english.seoul.go.kr/wp-content/uploads/2025/03/MonthlySeoul_Namsan_Mountain_8.jpg"
+                 alt="People hanging out"
+                 style="width:100%;height:100%;object-fit:cover;">
+        <div class="hero-banner-overlay"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 1: RECOMMENDED ── -->
+<div id="recommended" class="sep"></div>
+<section class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Recommended For You</div>
+      <div class="section-sub">Curated based on your interests and activity history</div>
+    </div>
+    <a href="#" class="section-link">View all →</a>
+  </div>
+  <div class="scroll-track" id="recommended-track">
+    <!-- cards injected by JS -->
+  </div>
+</section>
+
+<!-- ── SECTION 2: BECAUSE YOU ENJOYED ── -->
+<div class="sep"></div>
+<section class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Because You Enjoyed <em style="font-style:italic;color:var(--sage-dark);">Pottery</em></div>
+      <div class="section-sub">More hands-on, creative experiences you'll love</div>
+    </div>
+    <a href="#" class="section-link">View all →</a>
+  </div>
+  <div class="scroll-track" id="similar-track"></div>
+</section>
+
+<!-- ── SECTION 3: MOOD EXPLORER ── -->
+<div class="sep"></div>
+<section class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Mood Explorer</div>
+      <div class="section-sub">How are you feeling today? We'll find the perfect match.</div>
+    </div>
+  </div>
+  <div class="mood-grid">
+    <div class="mood-card mood-bg-1" onclick="toggleMood(this)">
+      <div class="mood-emoji">🌿</div>
+      <div class="mood-label">Relaxing</div>
+    </div>
+    <div class="mood-card mood-bg-2" onclick="toggleMood(this)">
+      <div class="mood-emoji">🎨</div>
+      <div class="mood-label">Creative</div>
+    </div>
+    <div class="mood-card mood-bg-3" onclick="toggleMood(this)">
+      <div class="mood-emoji">🌄</div>
+      <div class="mood-label">Adventure</div>
+    </div>
+    <div class="mood-card mood-bg-4" onclick="toggleMood(this)">
+      <div class="mood-emoji">🍜</div>
+      <div class="mood-label">Foodie</div>
+    </div>
+    <div class="mood-card mood-bg-5" onclick="toggleMood(this)">
+      <div class="mood-emoji">🎵</div>
+      <div class="mood-label">Social</div>
+    </div>
+    <div class="mood-card mood-bg-6" onclick="toggleMood(this)">
+      <div class="mood-emoji">💕</div>
+      <div class="mood-label">Date Night</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 4: NEARBY MAP ── -->
+<div class="sep"></div>
+<div class="map-section">
+  <div class="section-header">
+    <div>
+      <div class="section-title">What's Nearby</div>
+      <div class="section-sub">Activities within 3km of Mapo-gu, Seoul</div>
+    </div>
+    <a href="#" class="section-link">Full map →</a>
+  </div>
+  <div class="map-container">
+    <div class="map-wrap">
+      <div class="map-bg" id="mapBg">
+        <!-- roads -->
+        <div class="map-road" style="width:3px;height:100%;left:30%;top:0;opacity:.5;"></div>
+        <div class="map-road" style="width:3px;height:100%;left:60%;top:0;opacity:.4;"></div>
+        <div class="map-road" style="height:3px;width:100%;left:0;top:35%;opacity:.5;"></div>
+        <div class="map-road" style="height:3px;width:100%;left:0;top:65%;opacity:.4;"></div>
+        <div class="map-road" style="width:2px;height:55%;left:45%;top:20%;opacity:.3;transform:rotate(15deg);transform-origin:top center;"></div>
+
+        <!-- markers -->
+        <div class="map-marker" style="left:28%;top:34%;" onclick="showPopup('art')">
+          <div class="map-marker-inner">🎨 <span>Art Workshop</span></div>
+        </div>
+        <div class="map-marker" style="left:55%;top:50%;" onclick="showPopup('cafe')">
+          <div class="map-marker-inner">☕ <span>Café Meetup</span></div>
+        </div>
+        <div class="map-marker" style="left:70%;top:28%;" onclick="showPopup('jazz')">
+          <div class="map-marker-inner">🎵 <span>Jazz Night</span></div>
+        </div>
+        <div class="map-marker" style="left:38%;top:65%;" onclick="showPopup('cook')">
+          <div class="map-marker-inner">🍳 <span>Cooking Class</span></div>
+        </div>
+        <div class="map-marker" style="left:80%;top:60%;" onclick="showPopup('photo')">
+          <div class="map-marker-inner">📷 <span>Photo Walk</span></div>
+        </div>
+        <div class="map-marker" style="left:18%;top:70%;" onclick="showPopup('climb')">
+          <div class="map-marker-inner">🧗 <span>Climbing</span></div>
+        </div>
+
+        <!-- popup -->
+        <div class="map-popup" id="mapPopup">
+          <button class="map-popup-close" onclick="closePopup()">×</button>
+          <div class="map-popup-emoji" id="popEmoji"></div>
+          <div class="map-popup-title" id="popTitle"></div>
+          <div class="map-popup-loc"  id="popLoc"></div>
+          <button class="map-popup-btn" onclick="showToast('Booking coming soon! 🎉')">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-list">
+      <div class="map-list-card" onclick="showPopup('art')">
+        <div class="map-list-icon">🎨</div>
+        <div>
+          <div class="map-list-name">Art Workshop</div>
+          <div class="map-list-dist">0.4 km · Hongdae</div>
+        </div>
+      </div>
+      <div class="map-list-card" onclick="showPopup('cafe')">
+        <div class="map-list-icon">☕</div>
+        <div>
+          <div class="map-list-name">Café Meetup</div>
+          <div class="map-list-dist">0.7 km · Yeonnam</div>
+        </div>
+      </div>
+      <div class="map-list-card" onclick="showPopup('jazz')">
+        <div class="map-list-icon">🎵</div>
+        <div>
+          <div class="map-list-name">Jazz Night</div>
+          <div class="map-list-dist">1.1 km · Sinchon</div>
+        </div>
+      </div>
+      <div class="map-list-card" onclick="showPopup('cook')">
+        <div class="map-list-icon">🍳</div>
+        <div>
+          <div class="map-list-name">Cooking Class</div>
+          <div class="map-list-dist">1.4 km · Mapo</div>
+        </div>
+      </div>
+      <div class="map-list-card" onclick="showPopup('photo')">
+        <div class="map-list-icon">📷</div>
+        <div>
+          <div class="map-list-name">Photography Walk</div>
+          <div class="map-list-dist">1.8 km · Hapjeong</div>
+        </div>
+      </div>
+      <div class="map-list-card" onclick="showPopup('climb')">
+        <div class="map-list-icon">🧗</div>
+        <div>
+          <div class="map-list-name">Climbing Gym</div>
+          <div class="map-list-dist">2.2 km · Mapo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 5: SURPRISE ME ── -->
+<div class="sep"></div>
+<div id="surprise" class="surprise-section">
+  <div class="surprise-card">
+    <div>
+      <div class="surprise-title">Feeling Spontaneous?</div>
+      <div class="surprise-sub">Let us pick something unexpected for you. Roll the dice and discover a hidden gem.</div>
+      <div class="surprise-result" id="surpriseResult">
+        <div class="surprise-result-emoji" id="srEmoji"></div>
+        <div class="surprise-result-name" id="srName"></div>
+        <div class="surprise-result-sub" id="srSub"></div>
+      </div>
+    </div>
+    <div>
+      <button class="dice-btn" id="diceBtn" onclick="rollDice()">
+        <div class="dice-emoji">🎲</div>
+        <div class="dice-label">ROLL</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 6: REWARDS ── -->
+<div class="sep"></div>
+<div id="rewards" class="rewards-section">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Your Rewards</div>
+      <div class="section-sub">Keep exploring to unlock exclusive perks</div>
+    </div>
+  </div>
+  <div class="rewards-card">
+    <div>
+      <div class="rewards-title">7 of 10 activities completed 🌟</div>
+      <div class="rewards-sub">You're so close! Complete <strong>3 more activities</strong> to unlock <strong>50% off</strong> your next booking.</div>
+      <div class="rewards-progress-label">
+        <span>Progress to next reward</span>
+        <strong>7 / 10</strong>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <div class="rewards-steps" id="rewardSteps"></div>
+      <button class="reward-cta" onclick="showToast('Let\'s find your next activity! ✨')">
+        🎯 Keep Exploring
+      </button>
+    </div>
+    <div class="rewards-badges">
+      <div class="badge-card earned">
+        <div class="badge-icon">🏺</div>
+        <div>
+          <div class="badge-name">Clay Master</div>
+          <div class="badge-desc">Completed 3 pottery sessions</div>
+          <div class="badge-status">✓ Earned</div>
+        </div>
+      </div>
+      <div class="badge-card earned">
+        <div class="badge-icon">🌙</div>
+        <div>
+          <div class="badge-name">Night Owl</div>
+          <div class="badge-desc">Attended 2 evening events</div>
+          <div class="badge-status">✓ Earned</div>
+        </div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon">🌏</div>
+        <div>
+          <div class="badge-name">Explorer</div>
+          <div class="badge-desc">Try 5 different categories</div>
+          <div class="badge-status">4 / 5 done</div>
+        </div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon">🎲</div>
+        <div>
+          <div class="badge-name">Wild Card</div>
+          <div class="badge-desc">Book a Surprise activity</div>
+          <div class="badge-status">Not started</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Nori <span class="kr">놀이</span></div>
+      <div class="footer-brand-desc">Discover new experiences, break out of your routine, and create unforgettable memories across Seoul and beyond.</div>
+      <div class="footer-socials">
+        <a href="#" class="social-btn" title="Instagram">📸</a>
+        <a href="#" class="social-btn" title="KakaoTalk">💬</a>
+        <a href="#" class="social-btn" title="Twitter">🐦</a>
+        <a href="#" class="social-btn" title="YouTube">▶️</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Discover</div>
+      <a href="#">All Activities</a>
+      <a href="#">Workshops</a>
+      <a href="#">Events</a>
+      <a href="#">Classes</a>
+      <a href="#">Social Nights</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="#">About Nori</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+      <a href="#">Host with us</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Legal</div>
+      <a href="#">Terms of Service</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Cookie Policy</a>
+      <a href="#">Support</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 Nori Inc. All rights reserved.</div>
+    <div class="footer-bottom-kr">서울에서 만든 경험들 🌿</div>
+  </div>
+</footer>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ─────────────────────────────────────────────────────
+const activities = [
+  { img:'https://shop.vitcas.com/media/amasty/blog/cache/P/o/1000/690/Pottery-craft-ceramics.jpg', name:'Pottery Workshop',     price:'₩45,000', tag:'Craft',  tagClass:'tag-craft', match:'96%' },
+  { img:'https://asomemusic.com/wp-content/uploads/2025/06/seoul-jazz-club7.jpeg', name:'Jazz Night',           price:'₩35,000', tag:'Music',  tagClass:'tag-music', match:'91%' },
+  { img:'https://www.midwestliving.com/thmb/6pcQdksgUlwW2rA_S7qrzeopQT8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/CD_R315020_Buttery-Croissant_8998_preview-b9cb4afd77df47978601ec2438b95ce6.jpg', name:'Croissant Baking',     price:'₩52,000', tag:'Food',   tagClass:'tag-food',  match:'88%' },
+  { img:'https://res.klook.com/image/upload/fl_lossy.progressive,q_60/v1755071541/destination/w7weugnjtvmxk7t4hbc6.jpg', name:'Photography Walk',     price:'₩28,000', tag:'Photo',  tagClass:'tag-photo', match:'85%' },
+  { img:'https://media.tacdn.com/media/attractions-splice-spp-674x446/11/cc/5a/4e.jpg', name:'Perfume Making',       price:'₩65,000', tag:'Scent',  tagClass:'tag-scent', match:'82%' },
+  { img:'https://www.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=40980&fileTy=MEDIA&fileNo=2', name:'Tea Ceremony',         price:'₩38,000', tag:'Craft',  tagClass:'tag-craft', match:'79%' },
+];
+
+const similar = [
+  { img:'https://res.klook.com/images/w_1200,h_630,c_fill,q_65/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/kg0utoz31riu1vrcwxty/KoreanCalligraphyClassinSeoul-Klook.jpg', name:'Calligraphy Class', price:'₩48,000', tag:'Art',   tagClass:'tag-art',   match:'94%' },
+  { img:'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=480&q=80', name:'Terrarium Workshop',   price:'₩42,000', tag:'Craft', tagClass:'tag-craft', match:'90%' },
+  { img:'https://m.universalclass.com/i/course/candlemaking101/studycandlemaking10127720.jpg', name:'Candle Making',        price:'₩36,000', tag:'Craft', tagClass:'tag-craft', match:'87%' },
+  { img:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=480&q=80', name:'Sourdough Baking',     price:'₩55,000', tag:'Food',  tagClass:'tag-food',  match:'83%' },
+  { img:'https://english.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=73392&fileTy=MEDIA&fileNo=1', name:'K-pop Dance Class',    price:'₩30,000', tag:'Social',tagClass:'tag-social',match:'80%' },
+];
+
+const surprisePool = [
+  { emoji:'🎭', name:'Improv Comedy Night', sub:'Sinchon · Fri 8pm' },
+  { emoji:'🪃', name:'Axe Throwing',        sub:'Hongdae · Anytime' },
+  { emoji:'🎨', name:'Abstract Painting',   sub:'Yeonnam · Sat 3pm' },
+  { emoji:'🌙', name:'Rooftop Stargazing',  sub:'Mapo · Clear nights' },
+  { emoji:'🍜', name:'Ramen Making Class',  sub:'Mapo-gu · Sun 2pm' },
+  { emoji:'🥁', name:'Drum Circle',         sub:'Hongik Univ. · Every Thu' },
+  { emoji:'🧘', name:'Forest Yoga',         sub:'Bukhansan · Sat 7am ' },
+  { emoji:'🎤', name:'Karaoke Battle',      sub:'Gangnam · Fri 9pm' },
+];
+
+const mapData = {
+  art:   { emoji:'🎨', title:'Art Workshop',        loc:'Hongdae · 0.4 km away' },
+  cafe:  { emoji:'☕', title:'Café Meetup',          loc:'Yeonnam-dong · 0.7 km' },
+  jazz:  { emoji:'🎵', title:'Jazz Night',           loc:'Sinchon · 1.1 km' },
+  cook:  { emoji:'🍳', title:'Cooking Class',        loc:'Mapo-gu · 1.4 km' },
+  photo: { emoji:'📷', title:'Photography Walk',     loc:'Hapjeong · 1.8 km' },
+  climb: { emoji:'🧗', title:'Climbing Gym',         loc:'Mapo · 2.2 km' },
+};
+
+// ─── RENDER CARDS ──────────────────────────────────────────────
+function makeCard(a) {
+  return `
+  <div class="activity-card" onclick="showToast('Opening ${a.name}…')">
+    <div class="activity-card-img">
+     <img src="${a.img}" alt="${a.name}" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+    <button class="activity-card-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+    <div class="activity-card-body">
+      <span class="activity-tag ${a.tagClass}">${a.tag}</span>
+      <div class="activity-name">${a.name}</div>
+      <div class="activity-meta">
+       <span class="activity-tag tag-craft" style="background:#e8f0e8;color:var(--sage-dark);margin:0;">✓ Included</span>
+       <span class="activity-match"><span class="match-dot"></span>${a.match} match</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+document.getElementById('recommended-track').innerHTML = activities.map(makeCard).join('');
+document.getElementById('similar-track').innerHTML = similar.map(makeCard).join('');
+
+// ─── FAV TOGGLE ────────────────────────────────────────────────
+function toggleFav(btn) {
+  btn.classList.toggle('active');
+  btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
+  if (btn.classList.contains('active')) showToast('Added to Favorites ❤️');
+}
+
+// ─── MOOD ──────────────────────────────────────────────────────
+function toggleMood(el) {
+  el.classList.toggle('selected');
+  const mood = el.querySelector('.mood-label').textContent;
+  if (el.classList.contains('selected'))
+    showToast(`${el.querySelector('.mood-emoji').textContent} Showing ${mood} activities`);
+}
+
+// ─── MAP POPUP ─────────────────────────────────────────────────
+function showPopup(key) {
+  const d = mapData[key];
+  document.getElementById('popEmoji').textContent = d.emoji;
+  document.getElementById('popTitle').textContent = d.title;
+  document.getElementById('popLoc').textContent   = d.loc;
+  const p = document.getElementById('mapPopup');
+  p.style.left = '50%'; p.style.top  = '50%';
+  p.style.transform = 'translate(-50%,-50%)';
+  p.classList.add('show');
+}
+function closePopup() {
+  document.getElementById('mapPopup').classList.remove('show');
+}
+
+// ─── DICE / SURPRISE ───────────────────────────────────────────
+function rollDice() {
+  const btn = document.getElementById('diceBtn');
+  btn.classList.remove('rolling');
+  void btn.offsetWidth;
+  btn.classList.add('rolling');
+  setTimeout(() => {
+    const pick = surprisePool[Math.floor(Math.random() * surprisePool.length)];
+    document.getElementById('srEmoji').textContent = pick.emoji;
+    document.getElementById('srName').textContent  = pick.name;
+    document.getElementById('srSub').textContent   = pick.sub;
+    document.getElementById('surpriseResult').classList.add('show');
+  }, 350);
+}
+
+// ─── REWARDS PROGRESS ──────────────────────────────────────────
+(function initRewards() {
+  const fill = document.getElementById('progressFill');
+  const steps = document.getElementById('rewardSteps');
+  const total = 10, done = 7;
+  for (let i = 0; i < total; i++) {
+    const s = document.createElement('div');
+    s.className = 'reward-step' + (i < done ? ' done' : '');
+    steps.appendChild(s);
+  }
+  setTimeout(() => { fill.style.width = (done/total*100) + '%'; }, 400);
+})();
+
+// ─── TOAST ─────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ─── NAVBAR SCROLL EFFECT ──────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.boxShadow =
+    window.scrollY > 10 ? '0 4px 20px rgba(123,104,86,.12)' : '';
+});
+</script>
+</body>
+</html>
