@@ -23,7 +23,7 @@
     --card-bg:    #FDFAF5;
     --shadow-sm:  0 2px 8px rgba(123,104,86,.08);
     --shadow-md:  0 6px 24px rgba(123,104,86,.13);
-    --shadow-lg:  0 16px 48px rgba(123,104,86,.18);
+    --shadow-lg:  0 16px 48px rgba(123,104,86,.18)
     --r-sm: 12px;
     --r-md: 20px;
     --r-lg: 28px;
@@ -1109,8 +1109,9 @@ const mapData = {
 
 // ─── RENDER CARDS ──────────────────────────────────────────────
 function makeCard(a) {
+  const link = a.name === 'Pottery Workshop' ? 'nori-activity.html' : null;
   return `
-  <div class="activity-card" onclick="showToast('Opening ${a.name}…')">
+  <div class="activity-card" onclick="${link ? `window.location.href='${link}'` : `showToast('Opening ${a.name}…')`}">
     <div class="activity-card-img">
      <img src="${a.img}" alt="${a.name}" style="width:100%;height:100%;object-fit:cover;">
     </div>
