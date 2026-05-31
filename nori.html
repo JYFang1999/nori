@@ -1071,7 +1071,7 @@
 <script>
 // ─── DATA ─────────────────────────────────────────────────────
 const activities = [
-  { img:'https://shop.vitcas.com/media/amasty/blog/cache/P/o/1000/690/Pottery-craft-ceramics.jpg', name:'Pottery Workshop',     price:'₩45,000', tag:'Craft',  tagClass:'tag-craft', match:'96%' },
+  { img:'https://shop.vitcas.com/media/amasty/blog/cache/P/o/1000/690/Pottery-craft-ceramics.jpg', name:'Soju Cup Pottery Workshop',     price:'₩45,000', tag:'Craft',  tagClass:'tag-craft', match:'96%' },
   { img:'https://asomemusic.com/wp-content/uploads/2025/06/seoul-jazz-club7.jpeg', name:'Jazz Night',           price:'₩35,000', tag:'Music',  tagClass:'tag-music', match:'91%' },
   { img:'https://www.midwestliving.com/thmb/6pcQdksgUlwW2rA_S7qrzeopQT8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/CD_R315020_Buttery-Croissant_8998_preview-b9cb4afd77df47978601ec2438b95ce6.jpg', name:'Croissant Baking',     price:'₩52,000', tag:'Food',   tagClass:'tag-food',  match:'88%' },
   { img:'https://res.klook.com/image/upload/fl_lossy.progressive,q_60/v1755071541/destination/w7weugnjtvmxk7t4hbc6.jpg', name:'Photography Walk',     price:'₩28,000', tag:'Photo',  tagClass:'tag-photo', match:'85%' },
@@ -1109,7 +1109,7 @@ const mapData = {
 
 // ─── RENDER CARDS ──────────────────────────────────────────────
 function makeCard(a) {
-  const link = a.name === 'Pottery Workshop' ? 'nori-activity.html' : null;
+  const link = a.name === 'Soju Cup Pottery Workshop' ? 'soju.html' : null;
   return `
   <div class="activity-card" onclick="${link ? `window.location.href='${link}'` : `showToast('Opening ${a.name}…')`}">
     <div class="activity-card-img">
